@@ -18,7 +18,25 @@ const Elevator = {
   }
 }
 
-console.log(Elevator.selectFloor(7));
-console.log(Elevator.currentFloor);
-console.log(Elevator.selectFloor(3));
-console.log(Elevator.currentFloor);
+const panel = {
+  floor: null,
+  direction: null,
+  pressButton: function(direction) {
+    Elevator.targetFloor = this.floor;
+    
+    // if(direction === 'going up') {
+      
+    // }else if(direction === 'going down') {
+      
+    // }
+  }
+}
+
+// console.log(Elevator.selectFloor(7));
+// console.log(Elevator.currentFloor);
+// console.log(Elevator.selectFloor(3));
+// console.log(Elevator.currentFloor);
+
+
+// console.log(panel.pressButton('going_up'));
+// console.log(Elevator.currentFloor);
