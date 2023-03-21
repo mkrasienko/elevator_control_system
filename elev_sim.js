@@ -1,42 +1,64 @@
-const floors = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+// Elevator object
 
 const Elevator = {
   currentFloor: 0,
   direction: 'stopped',
-  targetFloor: null,  
+  targetFloor: null,
+  isMoving: false,
+  moveInterval: null,
   selectFloor: function(targetFloor) {
     this.targetFloor = targetFloor;
-    if(this.currentFloor < this.targetFloor) {
-      this.currentFloor = targetFloor;
+    if (this.currentFloor < this.targetFloor) {
       this.direction = 'going up';
-      return this.direction
-    }else {
-      this.currentFloor = targetFloor;
+      this.startMoving();
+    } else if (this.currentFloor > this.targetFloor) {
       this.direction = 'going down';
-      return this.direction
+      this.startMoving();
+    } else {
+      this.direction = 'stopped';
     }
+    return this.direction;
+  },
+  startMoving: function() {
+    if (this.isMoving) {
+      return;
+    }
+    this.isMoving = true;
+    this.moveInterval = setInterval(() => {
+      if (this.direction === 'going up') {
+        this.currentFloor++;
+        console.log(`Elevator is now at floor ${this.currentFloor}`);
+        if (this.currentFloor === this.targetFloor) {
+          this.stopMoving();
+        }
+      } else if (this.direction === 'going down') {
+        this.currentFloor--;
+        console.log(`Elevator is now at floor ${this.currentFloor}`);
+        if (this.currentFloor === this.targetFloor) {
+          this.stopMoving();
+        }
+      }
+    }, 1000);
+  },
+  stopMoving: function() {
+    clearInterval(this.moveInterval);
+    this.isMoving = false;
+    this.direction = 'stopped';
+    console.log('Elevator has arrived at the destination floor');
   }
-}
+};
 
+// Panel object - can select floors and call elevator
 const panel = {
   floor: null,
-  direction: null,
-  pressButton: function(direction) {
-    Elevator.targetFloor = this.floor;
-    
-    // if(direction === 'going up') {
-      
-    // }else if(direction === 'going down') {
-      
-    // }
+  pressButton: function(floor) {
+    return Elevator.selectFloor(floor);
   }
 }
 
-// console.log(Elevator.selectFloor(7));
-// console.log(Elevator.currentFloor);
-// console.log(Elevator.selectFloor(3));
-// console.log(Elevator.currentFloor);
+console.log(panel.pressButton(3));
 
-
-// console.log(panel.pressButton('going_up'));
-// console.log(Elevator.currentFloor);
+// remember last floor
+// set max floors
+// add basement/garage
+// add penthouse with access code
